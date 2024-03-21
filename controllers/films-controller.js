@@ -1,0 +1,44 @@
+const Films = require("../models/films");
+
+module.exports.FilmsAll = function(req, res) {
+    Films.findAll().then((films) => {
+        const filmsJson = JSON.stringify(films);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(filmsJson);
+    }).catch((err) => {
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('Ошибка при получении списка фильмов');
+    });
+}
+
+module.exports.FilmsAdd = function(req, res) {
+    let body = '';
+    req.on('data', (chunk) => {
+        body = body + chunk.toString();
+    });
+
+    req.on('end', () => {
+        try {
+            const data = JSON.parse(body);
+            console.log(data)
+            Films.create({
+                name: data.name,
+                category_id: data.category_id,
+                data_created: data.data_created,
+                description: data.description,
+                author: data.author,
+                admin_id: data.admin_id
+            
+            }).then(() => {
+                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                res.end('Данные о фильме успешно получены и добавлены в базу данных');
+            }).catch((err) => {
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.end('Ошибка при добавлении фильма');
+            });
+        } catch (error) {
+            res.writeHead(400, { 'Content-Type': 'text/plain' });
+            res.end('Неверный формат JSON данных');
+        }
+    });
+}
