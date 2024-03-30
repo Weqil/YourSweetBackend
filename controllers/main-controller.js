@@ -57,27 +57,4 @@ module.exports = function requestController(req, res) {
       res.end(JSON.stringify({ error: "Страницы не существует" }));
       break;
   }
-
-  //   if (req.method === "GET" && path === "/admins") {
-  //     const { adminsAll } = require("./admins-controller");
-  //     adminsAll(req, res);
-  //   } else if (req.method === "POST" && path === "/admins/add") {
-  //     const { adminsAdd } = require("./admins-controller");
-  //     adminsAdd(req, res);
-  //   } else if (req.method === "GET" && path === "/films") {
-  //     const { FilmsAll } = require("./films-controller");
-  //     FilmsAll(req, res);
-  //   } else if (req.method === "POST" && path === "/films/add") {
-  //     const { FilmsAdd } = require("./films-controller");
-  //     FilmsAdd(req, res);
-  //   } else if (req.method === "GET" && path === "/categories") {
-  //     const { categoriesAll } = require("./categories-controller");
-  //     categoriesAll(req, res);
-  //   } else if (req.method === "POST" && path === "/categories/add") {
-  //     const { createCategories } = require("./categories-controller");
-  //     createCategories(req, res);
-  //   } else {
-  //     res.writeHead(404, { "Content-Type": "application/json" });
-  //     res.end(JSON.stringify({ error: "Страницы не существует" }));
-  //   }
 };
