@@ -3,7 +3,7 @@ const Films = require("../models/films");
 const Categories = require("../models/categories");
 const { createAdmins } = require("./admins-controller");
 
-module.exports = function requestController(req, res) {
+module.exports = function requestController(req, res, clints) {
   // Получаем query параметры
   const url_parts = url.parse(req.url, true);
   const query = url_parts.query;
@@ -51,6 +51,10 @@ module.exports = function requestController(req, res) {
     case req.method === "POST" && path === "/categories":
       const { createCategories } = require("./categories-controller");
       createCategories(req, res, body);
+      break;
+    case req.method === "GET" && path === "/ws-clients":
+      const { clientAll } = require("./ws_clients-controller");
+      clientAll(req, res, query, clints);
       break;
     default:
       res.writeHead(404, { "Content-Type": "application/json" });

@@ -1,4 +1,5 @@
 const Films = require("../models/films");
+const WSClients = require("../models/ws_clients");
 
 module.exports.FilmsAll = function (req, res, query) {
   console.log(query);

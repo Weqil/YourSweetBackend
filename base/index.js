@@ -22,6 +22,7 @@ db.authenticate()
     const Films = require('../models/films')  
     const Categories = require('../models/categories')
     const Serials = require('../models/serials')
+    const ClientsWS = require('../models/ws_clients')
     
 })
 .catch((error)=>{
