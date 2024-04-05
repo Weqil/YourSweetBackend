@@ -20,19 +20,18 @@ module.exports.connect = function () {
         ws_id: userId,
         user_id: 1
       });
-      connection.on('message', (message, isBinary) => {
-        console.log(message);
-      });
+      onMessage(connection)
     });
-}
-
-module.exports.onMessage = function () {
-  this.wsServer.on('message', (message) => {
-    console.log('получено сообщение: %s', message);
-  });
 }
 
 module.exports.getClients = function () {
     this.wsServer.clients
     return this.wsServer.clients
+}
+
+function onMessage (connection) {
+  connection.on('message', async (message, isBinary) => {
+    const message_str = await JSON.parse(message)
+    console.log(message_str);
+  });
 }

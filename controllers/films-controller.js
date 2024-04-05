@@ -1,5 +1,6 @@
 const Films = require("../models/films");
 const WSClients = require("../models/ws_clients");
+const {getClients} = require("../services/ws-service")
 
 module.exports.FilmsAll = function (req, res, query) {
   console.log(query);
@@ -28,9 +29,15 @@ module.exports.FilmsAdd = function (req, res, body) {
         author: data.author,
         admin_id: data.admin_id,
       })
-        .then(() => {
+        .then((film) => {
           res.writeHead(200, { "Content-Type": "text/plain" });
           res.end("Данные о фильме успешно получены и добавлены в базу данных");
+          getClients().forEach(client => {
+            client.send(JSON.stringify({
+              "message":"На сайте появился новый фильм",
+              "film":film
+            }))
+          });
         })
         .catch((err) => {
           res.writeHead(500, { "Content-Type": "text/plain" });

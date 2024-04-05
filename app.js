@@ -17,6 +17,5 @@ const server = http.createServer(function(request, response, clients){
 
 initWS(server);
 connect();
-onMessage();
 
 server.listen(port);
