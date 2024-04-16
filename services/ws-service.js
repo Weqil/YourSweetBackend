@@ -13,13 +13,9 @@ module.exports.initWS = function (server) {
 module.exports.connect = function () {
   this.wsServer.on('connection', function(connection) {
       const userId = uuidv4();
-      const ClientsWS = require('../models/ws_clients')
       this.clients[userId] = connection;
       connection.send(JSON.stringify({"message":"Подключение установлено."}))
-      ClientsWS.create({
-        ws_id: userId,
-        user_id: 1
-      });
+      
       onMessage(connection)
     });
 }

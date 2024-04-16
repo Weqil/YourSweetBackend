@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const {db} = require('../base/index');
-const Admins = db.define('Admins',{
-    admin_id:{
+const Admins = db.define('admins',{
+    id:{
         type:DataTypes.INTEGER,
         primaryKey:true, 
         autoIncrement:true,

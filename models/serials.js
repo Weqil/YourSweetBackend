@@ -3,53 +3,51 @@ const { db } = require('../base/index');
 const Admins = require('./admins')
 const Categories = require('./categories')
 
-const Serials = db.define('Serials',{
-   serial_id:{
-    type:DataTypes.INTEGER,
-    primaryKey:true,
-    autoIncrement:true
-   },
-   name:{
-    type:DataTypes.STRING,
-    allowNull:false,
-   },
-   category_id:{
-    type:DataTypes.INTEGER,
-    allowNull:false,
-   },
+const Serials = db.define('serials',{
+    id:{
+        type:DataTypes.INTEGER,
+        primaryKey:true,
+        autoIncrement:true
+    },
+    name:{
+        type:DataTypes.STRING,
+        allowNull:false,
+    },
+    category_id:{
+        type:DataTypes.INTEGER,
+        allowNull:false,
+    },
+    data_created:{
+        type:DataTypes.STRING,
+        allowNull:false,
+    },
 
-   data_created:{
-    type:DataTypes.STRING,
-    allowNull:false,
-   },
-
-   description:{
-    type:DataTypes.STRING,
-    allowNull:false,
-   },
-   author:{
-    type:DataTypes.STRING,
-    allowNull:false,
-   },
-
-   category_id:{
-    type:DataTypes.INTEGER,
-    allowNull:false,
-   },
-   admin_id:{
-    type:DataTypes.INTEGER,
-    allowNull:false,
-   }
+    description:{
+        type:DataTypes.STRING,
+        allowNull:false,
+    },
+    author:{
+        type:DataTypes.STRING,
+        allowNull:false,
+    },
+    category_id:{
+        type:DataTypes.INTEGER,
+        allowNull:false,
+    },
+    admin_id:{
+        type:DataTypes.INTEGER,
+        allowNull:false,
+    }
 });
 
 Serials.belongsTo(Admins,{
     foreignKey:'admin_id', //поле в модели films
-    targetKey:'admin_id'
+    targetKey:'id'
 });
 
 Serials.belongsTo(Categories,{
     foreignKey:'category_id', //поле в модели films
-    targetKey:'category_id'
+    targetKey:'id'
 })
 
 // Синхронизируем модель в другом месте, а не здесь

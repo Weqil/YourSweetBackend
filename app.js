@@ -1,3 +1,5 @@
+
+require('dotenv').config()
 const db = require('./base');
 const { WebSocketServer } = require('ws');
 const {connect, initWS, onMessage} = require('./services/ws-service');

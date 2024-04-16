@@ -52,10 +52,6 @@ module.exports = function requestController(req, res, clints) {
       const { createCategories } = require("./categories-controller");
       createCategories(req, res, body);
       break;
-    case req.method === "GET" && path === "/ws-clients":
-      const { clientAll } = require("./ws_clients-controller");
-      clientAll(req, res, query, clints);
-      break;
     default:
       res.writeHead(404, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ error: "Страницы не существует" }));
