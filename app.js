@@ -1,6 +1,10 @@
+
+require('dotenv').config()
 const db = require('./base');
+const { WebSocketServer } = require('ws');
+const {connect, initWS, onMessage} = require('./services/ws-service');
 const http = require('http');
-const port = 3500;
+const port = process.env.APP_PORT || 3500;
 const Sequelize = require('sequelize');
 const requestController = require('./controllers/main-controller');
 
