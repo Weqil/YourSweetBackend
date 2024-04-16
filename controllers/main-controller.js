@@ -7,26 +7,19 @@ module.exports = function requestController(req, res) {
   // Получаем query параметры
   const url_parts = url.parse(req.url, true);
   const query = url_parts.query;
+
   // Получаем тело запроса
   var body;
   req.on("data", (chunk) => {
     body = chunk.toString();
   });
 
-  // Устанавливаем заголовки для CORS
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", true);
-
+  
   // Получаем путь из адреса
   const path = req.url.match("^[^?]*")[0];
+  const parsedUrl = url.parse(req.url, true);// парсим путь и включаем параметры
+  const id = parsedUrl.query.id
+  console.log(path)
   switch (true) {
     case req.method === "GET" && path === "/admins":
       const { adminsAll } = require("./admins-controller");
@@ -34,6 +27,7 @@ module.exports = function requestController(req, res) {
       break;
     case req.method === "POST" && path === "/admins":
       const { adminsAdd } = require("./admins-controller");
+      console.log(body)
       adminsAdd(req, res, body);
       break;
     case req.method === "GET" && path === "/films":
@@ -50,8 +44,12 @@ module.exports = function requestController(req, res) {
       break;
     case req.method === "POST" && path === "/categories":
       const { createCategories } = require("./categories-controller");
-      createCategories(req, res, body);
+      createCategories(req, res);
       break;
+    case req.method === "POST" && path ==="/categories/rename":
+      const { renameCategories } = require("./categories-controller");
+      renameCategories(req, res, id);
+    break;
     default:
       res.writeHead(404, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ error: "Страницы не существует" }));

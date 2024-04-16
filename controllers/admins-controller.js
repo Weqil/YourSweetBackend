@@ -16,7 +16,6 @@ module.exports.adminsAll = function (req, res, query) {
 };
 
 module.exports.adminsAdd = function (req, res, body) {
-  let body = "";
   req.on("data", (chunk) => {
     body = body + chunk.toString();
   });

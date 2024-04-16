@@ -13,7 +13,33 @@ module.exports.categoriesAll = function (req, res, query) {
     });
 };
 
-module.exports.createCategories = function (req, res, body) {
+module.exports.renameCategories = function(req, res, id){
+  
+  let body 
+  req.on("data", (chunk) => {
+    body = chunk.toString();
+  });
+  try{
+    Categories.findByPk(id).then(category=>{
+      console.log(category)
+      data = JSON.parse(body)
+      category.name = data.name
+      category.save().then(()=>{
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end("Данные изменены успешно!")
+      })
+    })
+  }
+  catch(error){
+
+  }
+}
+
+module.exports.createCategories = function (req, res,) {
+  let body 
+  req.on("data", (chunk) => {
+    body = chunk.toString();
+  });
   req.on("end", () => {
     try {
       const data = JSON.parse(body);
@@ -32,6 +58,7 @@ module.exports.createCategories = function (req, res, body) {
 
       res.writeHead(400, { "Content-Type": "application/json" });
       res.end("Ошибка при обработке данных");
+      
     }
   });
 };
