@@ -50,6 +50,11 @@ module.exports = function requestController(req, res) {
       const { renameCategories } = require("./categories-controller");
       renameCategories(req, res, id);
     break;
+    case req.method === "DELETE" && path ==="/categories":
+      const { deletCategory } = require("./categories-controller");
+      console.log("del!!")
+      deletCategory(req, res, id);
+    break;
     default:
       res.writeHead(404, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ error: "Страницы не существует" }));
