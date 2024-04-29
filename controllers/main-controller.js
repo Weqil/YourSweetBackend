@@ -38,6 +38,10 @@ module.exports = function requestController(req, res) {
       const { FilmsAdd } = require("./films-controller");
       FilmsAdd(req, res, body);
       break;
+    case req.method === "POST" && path === "/films-files":
+      const { FilmFiles } = require("./films-controller");
+      FilmFiles(req, res);
+      break;
     case req.method === "GET" && path === "/categories":
       const { categoriesAll } = require("./categories-controller");
       categoriesAll(req, res, query);
