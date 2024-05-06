@@ -9,36 +9,39 @@ const Films = db.define('Films',{
     primaryKey:true,
     autoIncrement:true
    },
+
    name:{
     type:DataTypes.STRING,
     allowNull:false,
    },
+
    category_id:{
     type:DataTypes.INTEGER,
     allowNull:false,
    },
-   link:{
+
+   data_created:{
+    type:DataTypes.STRING,
+    allowNull:false,
+   },
+
+   description:{
+    type:DataTypes.STRING,
+    allowNull:false,
+   },
+   
+   author:{
+    type:DataTypes.STRING,
+    allowNull:false,
+   },
+   admin_id:{
+    type:DataTypes.INTEGER,
+    allowNull:false,
+   },
+   avatar:{
     type:DataTypes.STRING,
     allowNull:false,
    }
-
-//    data_created:{
-//     type:DataTypes.STRING,
-//     allowNull:false,
-//    },
-
-//    description:{
-//     type:DataTypes.STRING,
-//     allowNull:false,
-//    },
-//    author:{
-//     type:DataTypes.STRING,
-//     allowNull:false,
-//    },
-//    admin_id:{
-//     type:DataTypes.INTEGER,
-//     allowNull:false,
-//    }
 });
 
 Films.belongsTo(Admins,{

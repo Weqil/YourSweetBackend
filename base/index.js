@@ -22,7 +22,8 @@ db.authenticate()
     const Films = require('../models/films')  
     const Categories = require('../models/categories')
     const Serials = require('../models/serials')
-    
+    const Videos = require('../models/videos')
+    const VideosCount = require('../models/videosCount')
 })
 .catch((error)=>{
     console.error(error);
