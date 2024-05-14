@@ -7,12 +7,14 @@ const Films = db.define('Films',{
    film_id:{
     type:DataTypes.INTEGER,
     primaryKey:true,
-    autoIncrement:true
-   },
+    autoIncrement:true,
+    unique:true,
+},
 
    name:{
     type:DataTypes.STRING,
     allowNull:false,
+    unique:true,
    },
 
    category_id:{
@@ -41,7 +43,12 @@ const Films = db.define('Films',{
    avatar:{
     type:DataTypes.STRING,
     allowNull:false,
-   }
+   },
+   video:{
+    type:DataTypes.STRING,
+    allowNull:false,
+   },
+
 });
 
 Films.belongsTo(Admins,{

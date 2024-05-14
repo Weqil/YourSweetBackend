@@ -36,11 +36,15 @@ module.exports = function requestController(req, res) {
       break;
     case req.method === "POST" && path === "/films":
       const { FilmsAdd } = require("./films-controller");
-      FilmsAdd(req, res, body);
+      FilmsAdd(req, res,);
       break;
     case req.method === "POST" && path === "/films-avatar":
       const { FilmAvatarFile } = require("./films-controller");
       FilmAvatarFile(req, res, body);
+      break;
+    case req.method === "POST" && path === "/films-video":
+      const { FilmVideoFile } = require("./films-controller");
+      FilmVideoFile(req, res, body);
       break;
     case req.method === "GET" && path === "/categories":
       const { categoriesAll } = require("./categories-controller");
