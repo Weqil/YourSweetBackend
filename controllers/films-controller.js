@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const {reqOnBody} = require("../utlis/body-parse")
 const VideosCount = require("../models/videosCount");
+const { where } = require("sequelize");
 
 module.exports.FilmsAll = function (req, res, query) {
   let offset = 0;
@@ -16,6 +17,37 @@ module.exports.FilmsAll = function (req, res, query) {
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(filmsJson);
       offset += limit;
+    })
+    .catch((err) => {
+      res.writeHead(500, { "Content-Type": "text/plain" });
+      res.end("Ошибка при получении списка фильмов");
+    });
+};
+
+module.exports.FilmsNew = function (req,res, query){
+  Films.findAll({
+    order: [['createdAt', 'DESC']],
+    limit: query.limit
+  }).then((films) =>{
+    const filmsJson = JSON.stringify(films)
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(filmsJson);
+  })
+ 
+}
+
+module.exports.FilmsById = function (req, res, query) {
+  console.log(query)
+  Films.findAll({
+    where:({
+      film_id:query.id
+    })
+  })
+    .then((films) => {
+      const filmsJson = JSON.stringify(films);
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(filmsJson);
+    
     })
     .catch((err) => {
       res.writeHead(500, { "Content-Type": "text/plain" });
@@ -95,6 +127,41 @@ module.exports.FilmAvatarFile = function (req, res){
 }
 
 
+module.exports.FilmBackFile = function (req, res){
+  let fileName = 0
+  let body = []
+  let filePath = ''
+  req.on("data", (chunk)=>{
+    body.push(chunk)
+  })
+
+  req.on("end", () => {
+    body = Buffer.concat(body);
+    VideosCount.findByPk(1).then((file) => {
+      file.value = file.value + 1;
+      fileName = file.value;
+      return file.save().then(() => {
+        filePath = `./storage/filmAvatar/${"FilmNumberBack_"+fileName}.jpg`;
+        
+        fs.writeFile(filePath, body, (err) => {
+          if (err) {
+            console.error('Ошибка при записи файла:', err);
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Ошибка сервера' }));
+          } else {
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end(JSON.stringify({ path: `filmAvatar/${"FilmNumberBack_"+fileName}.jpg` }));
+          }
+        });
+      });
+    }).catch((error) => {
+      console.error('Ошибка при обновлении VideosCount:', error);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Ошибка сервера' }));
+    });
+  });
+}
+
 module.exports.FilmsAdd = function (req, res,) {
   let body = ''
   req.on("data", (chunk) => {
@@ -103,7 +170,6 @@ module.exports.FilmsAdd = function (req, res,) {
 
   req.on("end", () => {
     data = JSON.parse(body);
-    console.log(data)
       Films.create({
         name: data.name,
         category_id: data.category_id,
@@ -112,7 +178,8 @@ module.exports.FilmsAdd = function (req, res,) {
         author: data.author,
         admin_id: data.admin_id,
         avatar: data.avatar,
-        video: data.video
+        video: data.video,
+        back: data.back
       })
         .then(() => {
           res.writeHead(200, { 'Content-Type': 'text/plain' });

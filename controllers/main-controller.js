@@ -19,7 +19,6 @@ module.exports = function requestController(req, res) {
   const path = req.url.match("^[^?]*")[0];
   const parsedUrl = url.parse(req.url, true);// парсим путь и включаем параметры
   const id = parsedUrl.query.id
-  console.log(path)
   switch (true) {
     case req.method === "GET" && path === "/admins":
       const { adminsAll } = require("./admins-controller");
@@ -27,12 +26,19 @@ module.exports = function requestController(req, res) {
       break;
     case req.method === "POST" && path === "/admins":
       const { adminsAdd } = require("./admins-controller");
-      console.log(body)
       adminsAdd(req, res, body);
       break;
     case req.method === "GET" && path === "/films":
       const { FilmsAll } = require("./films-controller");
       FilmsAll(req, res, query);
+      break;
+    case req.method === "GET" && path === "/films-id":
+      const { FilmsById } = require("./films-controller");
+      FilmsById(req, res, query);
+      break;
+    case req.method === "GET" && path === "/films-new":
+      const { FilmsNew } = require("./films-controller");
+      FilmsNew(req, res, query);
       break;
     case req.method === "POST" && path === "/films":
       const { FilmsAdd } = require("./films-controller");
@@ -41,6 +47,10 @@ module.exports = function requestController(req, res) {
     case req.method === "POST" && path === "/films-avatar":
       const { FilmAvatarFile } = require("./films-controller");
       FilmAvatarFile(req, res, body);
+      break;
+    case req.method === "POST" && path === "/films-back":
+      const { FilmBackFile } = require("./films-controller");
+      FilmBackFile(req, res, body);
       break;
     case req.method === "POST" && path === "/films-video":
       const { FilmVideoFile } = require("./films-controller");
@@ -60,7 +70,6 @@ module.exports = function requestController(req, res) {
     break;
     case req.method === "DELETE" && path ==="/categories":
       const { deletCategory } = require("./categories-controller");
-      console.log("del!!")
       deletCategory(req, res, id);
     break;
     default:

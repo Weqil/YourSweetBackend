@@ -48,6 +48,10 @@ const Films = db.define('Films',{
     type:DataTypes.STRING,
     allowNull:false,
    },
+   back:{
+    type:DataTypes.STRING,
+    allowNull:false,
+   },
 
 });
 
